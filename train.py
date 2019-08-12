@@ -132,7 +132,6 @@ def main(args=None):
                 regression_loss = regression_loss.mean()
 
                 loss = classification_loss + regression_loss
-                    
                 if bool(loss == 0):
                     continue
 
@@ -154,22 +153,22 @@ def main(args=None):
                 print(e)
                 continue
 
-            if parser.dataset == 'coco':
+        if parser.dataset == 'coco':
 
-                print('Evaluating dataset')
+            print('Evaluating dataset')
 
-                coco_eval.evaluate_coco(dataset_val, retinanet)
+            coco_eval.evaluate_coco(dataset_val, retinanet)
 
-            elif parser.dataset == 'csv' and parser.csv_val is not None:
+        elif parser.dataset == 'csv' and parser.csv_val is not None:
 
-                print('Evaluating dataset')
+            print('Evaluating dataset')
 
-                mAP = csv_eval.evaluate(dataset_val, retinanet, log_file=log_file)
+            mAP = csv_eval.evaluate(dataset_val, retinanet, log_file=log_file)
 
         
-            scheduler.step(np.mean(epoch_loss))     
+        scheduler.step(np.mean(epoch_loss))     
 
-            torch.save(retinanet.module, 'saved/{}_retinanet_{}.pt'.format(parser.dataset, epoch_num))
+        torch.save(retinanet.module, 'saved/{}_retinanet_{}.pt'.format(parser.dataset, epoch_num))
 
     retinanet.eval()
 
